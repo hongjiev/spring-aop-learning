@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userServiceImpl" class="com.javadoop.springaoplearning.service.imple.UserServiceImpl"/>
+    <bean id="orderServiceImpl" class="com.javadoop.springaoplearning.service.imple.OrderServiceImpl"/>
+
+    <!--定义两个 advice-->
+    <bean id="logArgsAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogArgsAdvice"/>
+    <bean id="logResultAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogResultAdvice"/>
+
+    <!--定义一个只拦截queryUser方法的 advisor-->
+    <bean id="logCreateAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <!--advisor 实例的内部会有一个 advice-->
+        <property name="advice" ref="logArgsAdvice" />
+        <!--只有下面这两个方法才会被拦截-->
+        <property name="mappedNames" value="createUser,createOrder" />
+    </bean>
+
+    <bean id="userServiceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--代理的接口-->
+        <property name="proxyInterfaces">
+            <list>
+                <value>com.javadoop.springaoplearning.service.UserService</value>
+            </list>
+        </property>
+        <!--代理的具体实现-->
+        <property name="target" ref="userServiceImpl"/>
+
+        <!--配置拦截器，这里可以配置 advice、advisor、interceptor-->
+        <property name="interceptorNames">
+            <list>
+                <value>logCreateAdvisor</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--===========================================-->
+    <!--同理，我们也可以配置一个 orderServiceProxy......-->
+    <!--===========================================-->
+
+</beans>

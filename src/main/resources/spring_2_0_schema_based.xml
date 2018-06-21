@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="userService" class="com.javadoop.springaoplearning.service.imple.UserServiceImpl"/>
+    <bean id="orderService" class="com.javadoop.springaoplearning.service.imple.OrderServiceImpl"/>
+
+    <!--定义 bean，将作为 Aspect 使用，我们需要处理的逻辑代码都在里面-->
+    <bean id="logArgsAspect" class="com.javadoop.springaoplearning.aop_spring_2_schema_based.LogArgsAspect" />
+    <bean id="logResultAspect" class="com.javadoop.springaoplearning.aop_spring_2_schema_based.LogResultAspect" />
+
+    <aop:config>
+        <!--下面这两个 Pointcut 是全局的，可以被所有的 Aspect 使用-->
+        <!--这里示意了两种 Pointcut 配置-->
+        <aop:pointcut id="logArgsPointcut" expression="execution(* com.javadoop.springaoplearning.service.*.*(..))" />
+        <aop:pointcut id="logResultPointcut" expression="com.javadoop.springaoplearning.aop_spring_2_schema_based.SystemArchitecture.businessService()" />
+
+        <aop:aspect ref="logArgsAspect">
+            <!--在这里也可以定义 Pointcut，不过这是局部的，不能被其他的 Aspect 使用-->
+            <aop:pointcut id="internalPointcut"
+                          expression="com.javadoop.springaoplearning.aop_spring_2_schema_based.SystemArchitecture.businessService()" />
+            <aop:before method="logArgs" pointcut-ref="internalPointcut" />
+        </aop:aspect>
+
+        <aop:aspect ref="logArgsAspect">
+            <aop:before method="logArgs" pointcut-ref="logArgsPointcut" />
+        </aop:aspect>
+
+        <aop:aspect ref="logResultAspect">
+            <aop:after-returning method="logResult" returning="result" pointcut-ref="logResultPointcut" />
+        </aop:aspect>
+
+
+    </aop:config>
+
+</beans>

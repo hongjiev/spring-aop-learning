@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userServiceImpl" class="com.javadoop.springaoplearning.service.imple.UserServiceImpl"/>
+    <bean id="orderServiceImpl" class="com.javadoop.springaoplearning.service.imple.OrderServiceImpl"/>
+
+    <!--定义两个 advice-->
+    <bean id="logArgsAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogArgsAdvice"/>
+    <bean id="logResultAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogResultAdvice"/>
+
+    <!--定义两个 advisor-->
+    <!--记录 create* 方法的传参-->
+    <bean id="logArgsAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="logArgsAdvice" />
+        <property name="pattern" value="com.javadoop.springaoplearning.service.*.create.*" />
+    </bean>
+    <!--记录 query* 的返回值-->
+    <bean id="logResultAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="logResultAdvice" />
+        <property name="pattern" value="com.javadoop.springaoplearning.service.*.query.*" />
+    </bean>
+
+
+    <!--定义DefaultAdvisorAutoProxyCreator-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+</beans>

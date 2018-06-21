@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userServiceImpl" class="com.javadoop.springaoplearning.service.imple.UserServiceImpl"/>
+    <bean id="orderServiceImpl" class="com.javadoop.springaoplearning.service.imple.OrderServiceImpl"/>
+
+    <!--定义两个 advice-->
+    <bean id="logArgsAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogArgsAdvice"/>
+    <bean id="logResultAdvice" class="com.javadoop.springaoplearning.aop_spring_1_2.LogResultAdvice"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <value>logArgsAdvice</value>
+                <value>logResultAdvice</value>
+            </list>
+        </property>
+        <property name="beanNames" value="orderServiceImpl" />
+    </bean>
+
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="userService" class="com.javadoop.springaoplearning.service.imple.UserServiceImpl"/>
+    <bean id="orderService" class="com.javadoop.springaoplearning.service.imple.OrderServiceImpl"/>
+
+    <!--开启 @AspectJ 配置-->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="logArgsAspect" class="com.javadoop.springaoplearning.aop_spring_2_aspectj.LogArgsAspect">
+        <!--如果需要配置参数，和普通的 bean 一样操作-->
+        <property name="trace" value="true"/>
+    </bean>
+
+    <bean class="com.javadoop.springaoplearning.aop_spring_2_aspectj.LogResultAspect">
+        <property name="trace" value="true"/>
+    </bean>
+
+</beans>
