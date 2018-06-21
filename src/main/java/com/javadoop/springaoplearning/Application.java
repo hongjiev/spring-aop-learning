@@ -15,11 +15,11 @@ public class Application {
 
     public static void main(String[] args) {
 
-//        test_Spring_1_2_Advice();
+        test_Spring_1_2_Advice();
 //        test_Spring_1_2_Advisor();
 //        test_Spring_1_2_BeanNameAutoProxy();
 //        test_Spring_1_2_DefaultAdvisorAutoProxy();
-        test_Spring_2_0_AspectJ();
+//        test_Spring_2_0_AspectJ();
 //        test_Spring_2_0_Schema_Based();
     }
 
